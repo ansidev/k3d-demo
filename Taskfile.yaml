@@ -1,0 +1,52 @@
+version: '3'
+
+vars:
+  HOME:
+    sh: echo ${HOME}
+  KUBE_NAMESPACE: k3s-local
+  KUBE_CLUSTER: k3s-local
+  HOST_HTTP_PORT: 8080
+  HOST_HTTPS_PORT: 8443
+
+env:
+  KUBECONFIG: "{{.HOME}}/.config/k3d/kubeconfig-{{.KUBE_NAMESPACE}}.yaml"
+
+includes:
+  single-node: ./Taskfile_single_node.yaml
+  multi-nodes: ./Taskfile_multi_nodes.yaml
+  multi-nodes-ingress-nginx: ./Taskfile_multi_nodes_ingress_nginx.yaml
+
+tasks:
+  deploy-app:
+    desc: Deploy app to k3s cluster from YAML file
+    vars:
+      YAML_FILE: '{{index (splitArgs .CLI_ARGS) 0}}'
+    cmds:
+      - kubectl apply -f {{.YAML_FILE}} --validate=strict --namespace {{.KUBE_NAMESPACE}}
+
+  delete-app:
+    desc: Delete app from k3s cluster using YAML file
+    vars:
+      YAML_FILE: '{{index (splitArgs .CLI_ARGS) 0}}'
+    cmds:
+      - kubectl delete -f {{.YAML_FILE}} --namespace {{.KUBE_NAMESPACE}}
+
+  start:
+    desc: Start cluster
+    cmds:
+      - k3d cluster start {{.KUBE_CLUSTER}}
+
+  stop:
+    desc: Stop cluster
+    cmds:
+      - k3d cluster stop {{.KUBE_CLUSTER}}
+
+  status:
+    desc: Get cluster status
+    cmds:
+      - kubectl get all,ingress --all-namespaces
+
+  destroy:
+    desc: Destroy k3s cluster
+    cmds:
+      - k3d cluster delete {{.KUBE_CLUSTER}}

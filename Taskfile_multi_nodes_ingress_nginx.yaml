@@ -1,0 +1,40 @@
+version: 3
+
+vars:
+  NGINX_INGRESS_CONTROLLER_VERSION: 1.10.0
+
+tasks:
+  deploy:
+    desc: Deploy k3s 3-nodes cluster with ingress-nginx controller
+    cmds:
+      - echo "Creating k3s 3-nodes cluster with ingress-nginx controller"
+      - task: create-multi-nodes-cluster-notraefik
+      - export KUBECONFIG="$(k3d kubeconfig write {{.KUBE_CLUSTER}})"
+      - echo "Creating namespace {{.KUBE_NAMESPACE}}"
+      - kubectl create namespace {{.KUBE_NAMESPACE}}
+      - echo "Deploying nginx ingress"
+      - task: deploy-ingress-nginx
+      - echo "Done"
+
+  create-multi-nodes-cluster-notraefik:
+    internal: true
+    desc: Create local k3s 3-nodes cluster without Traefik
+    cmds:
+      - |
+        k3d cluster create {{.KUBE_CLUSTER}} \
+          --api-port 6550 \
+          --port "{{.HOST_HTTP_PORT}}:80@loadbalancer" \
+          --port "{{.HOST_HTTPS_PORT}}:80@loadbalancer" \
+          --servers 3 \
+          --agents 3 \
+          --k3s-arg="--disable=traefik@server:0" \
+          --k3s-arg="--disable=traefik@server:1" \
+          --k3s-arg="--disable=traefik@server:2"
+
+  deploy-ingress-nginx:
+    internal: true
+    desc: Deploy nginx as ingress controller and loadbalancer to k3s cluster
+    cmds:
+      # https://kubernetes.github.io/ingress-nginx/deploy/?ref=blog.thenets.org#bare-metal-clusters
+      - kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v{{.NGINX_INGRESS_CONTROLLER_VERSION}}/deploy/static/provider/baremetal/deploy.yaml
+      - kubectl apply -f ingress-nginx.yaml --validate=strict

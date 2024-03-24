@@ -1,0 +1,27 @@
+version: 3
+
+tasks:
+
+  deploy:
+    desc: Deploy k3s 3-nodes cluster
+    cmds:
+      - echo "Creating k3s 3-nodes cluster"
+      - task: create-multi-nodes-cluster
+      - export KUBECONFIG="$(k3d kubeconfig write {{.KUBE_CLUSTER}})"
+      - echo "Creating namespace {{.KUBE_NAMESPACE}}"
+      - kubectl create namespace {{.KUBE_NAMESPACE}}
+      - echo "Deploying app http-echo"
+      - task deploy-app -- http_echo.yaml
+      - echo "Done"
+
+  create-multi-nodes-cluster:
+    desc: Create local k3s multi-nodes cluster
+    internal: true
+    cmds:
+      - |
+        k3d cluster create {{.KUBE_CLUSTER}} \
+          --api-port 6550 \
+          --port "{{.HOST_HTTP_PORT}}:80@loadbalancer" \
+          --port "{{.HOST_HTTPS_PORT}}:80@loadbalancer" \
+          --servers 3 \
+          --agents 3
