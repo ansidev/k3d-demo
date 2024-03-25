@@ -10,48 +10,56 @@ This project demonstrates how to setup a local k8s cluster (specifically on macO
 
 1. Install tools:
 
-```sh
-make prepare
-```
+   ```sh
+   make prepare
+   ```
 
 2. Deploy k3s cluster using one of following commands:
 
 
-```sh
-task single-node:deploy
-```
+   ```sh
+   task single-node:deploy
+   ```
 
-```sh
-task multi-nodes:deploy
-```
+   ```sh
+   task multi-nodes:deploy
+   ```
 
-```sh
-task multi-nodes-ingress-nginx:deploy
-```
+   ```sh
+   task multi-nodes-ingress-nginx:deploy
+   ```
 
-3. Deploy an example app to k3s:
+   **NOTE:** Kubernetes dashboard will be enabled by default.
 
-```sh
-task deploy-app -- http_echo.yaml
-```
+3. Open Kubernetes dashboard and paste the bearer token into the form to login (The bearer token will be copied to clipboard automatically).
 
-If you deploy the k3s cluster using `task multi-nodes-ingress-nginx:deploy`, use the below command:
+   ```sh
+   task dashboard:open
+   ```
 
-```sh
-task deploy-app -- http_echo_ingress_nginx.yaml
-```
+4. Deploy an example app to k3s:
+
+   ```sh
+   task deploy-app -- http_echo.yaml
+   ```
+
+   If you deploy the k3s cluster using `task multi-nodes-ingress-nginx:deploy`, use the below command:
+
+   ```sh
+   task deploy-app -- http_echo_ingress_nginx.yaml
+   ```
 
 4. Test app
 
-```sh
-curl --resolve k3s.local:8080:127.0.0.1 http://k3s.local:8080/
-```
+   ```sh
+   curl --resolve k3s.local:8080:127.0.0.1 http://k3s.local:8080/
+   ```
 
-You should see this result:
+   You should see this result:
 
-```
-hello
-```
+   ```
+   hello
+   ```
 
 ## Author
 

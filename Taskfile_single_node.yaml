@@ -10,8 +10,7 @@ tasks:
       - export KUBECONFIG="$(k3d kubeconfig write {{.KUBE_CLUSTER}})"
       - echo "Creating namespace {{.KUBE_NAMESPACE}}"
       - kubectl create namespace {{.KUBE_NAMESPACE}}
-      - echo "Deploying app http-echo"
-      - task deploy-app -- http_echo.yaml
+      - task dashboard:deploy
       - echo "Done"
 
   create-single-node-cluster:

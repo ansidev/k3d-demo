@@ -15,6 +15,7 @@ includes:
   single-node: ./Taskfile_single_node.yaml
   multi-nodes: ./Taskfile_multi_nodes.yaml
   multi-nodes-ingress-nginx: ./Taskfile_multi_nodes_ingress_nginx.yaml
+  dashboard: ./Taskfile_addons_dashboard.yaml
 
 tasks:
   deploy-app:
@@ -23,6 +24,13 @@ tasks:
       YAML_FILE: '{{index (splitArgs .CLI_ARGS) 0}}'
     cmds:
       - kubectl apply -f {{.YAML_FILE}} --validate=strict --namespace {{.KUBE_NAMESPACE}}
+
+  deploy-app-wons:
+    desc: Deploy app to k3s cluster from YAML file without namespace
+    vars:
+      YAML_FILE: '{{index (splitArgs .CLI_ARGS) 0}}'
+    cmds:
+      - kubectl apply -f {{.YAML_FILE}} --validate=strict
 
   delete-app:
     desc: Delete app from k3s cluster using YAML file
