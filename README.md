@@ -29,7 +29,7 @@ This project demonstrates how to setup a local k8s cluster (specifically on macO
    task multi-nodes-ingress-nginx:deploy
    ```
 
-   **NOTE:** Kubernetes dashboard will be enabled by default.
+   > **NOTE:** Kubernetes dashboard will be enabled by default.
 
 3. Open Kubernetes dashboard and paste the bearer token into the form to login (The bearer token will be copied to clipboard automatically).
 
@@ -37,11 +37,13 @@ This project demonstrates how to setup a local k8s cluster (specifically on macO
    task dashboard:open
    ```
 
-4. Deploy an example app to k3s:
+4. Deploy an example app to k3s
 
    ```sh
    task deploy-app -- http_echo.yaml
    ```
+
+   > **NOTE:** The default namespace for app will be `k3s-local` and can be customized via [Taskfile.yaml](./Taskfile.yaml) variable `KUBE_NAMESPACE`.
 
    If you deploy the k3s cluster using `task multi-nodes-ingress-nginx:deploy`, use the below command:
 
