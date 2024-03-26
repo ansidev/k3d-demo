@@ -19,6 +19,7 @@ tasks:
     cmds:
       - kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | (base64 -d && echo) | pbcopy
       - open https://localhost:8443
+      - kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443
 
   get-admin-token:
     desc: Get admin token
