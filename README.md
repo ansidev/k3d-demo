@@ -37,6 +37,12 @@ This project demonstrates how to setup a local k8s cluster (specifically on macO
    task dashboard:open
    ```
 
+   To get the bearer token, run
+
+   ```sh
+   task dashboard:get-admin-token
+   ```
+
 4. Deploy an example app to k3s
 
    ```sh
