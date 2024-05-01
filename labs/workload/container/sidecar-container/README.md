@@ -59,7 +59,7 @@
    127.0.0.1 - - [01/Jan/2024:00:00:00 +0000] "GET / HTTP/1.1" 200 615 "-" "curl/8.4.0" "-"
    ```
 
-5. Destroy pod
+7. Destroy pod
 
    ```sh
    kubectl --namespace k3s-local delete --filename nginx_sidecar.yaml
