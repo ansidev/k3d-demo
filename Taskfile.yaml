@@ -12,6 +12,7 @@ env:
   KUBECONFIG: "{{.HOME}}/.config/k3d/kubeconfig-{{.KUBE_NAMESPACE}}.yaml"
 
 includes:
+  config: ./Taskfile_config.yaml
   single-node: ./Taskfile_single_node.yaml
   multi-nodes: ./Taskfile_multi_nodes.yaml
   multi-nodes-ingress-nginx: ./Taskfile_multi_nodes_ingress_nginx.yaml

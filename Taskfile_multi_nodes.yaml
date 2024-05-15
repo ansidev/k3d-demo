@@ -1,13 +1,17 @@
 version: 3
 
-tasks:
+includes:
+  config:
+    taskfile: ./Taskfile_config.yaml
+    internal: true
 
+tasks:
   deploy:
     desc: Deploy k3s 3-nodes cluster
     cmds:
       - echo "Creating k3s 3-nodes cluster"
       - task: create-multi-nodes-cluster
-      - export KUBECONFIG="$(k3d kubeconfig write {{.KUBE_CLUSTER}})"
+      - task: config:export
       - echo "Creating namespace {{.KUBE_NAMESPACE}}"
       - kubectl create namespace {{.KUBE_NAMESPACE}}
       - task dashboard:deploy

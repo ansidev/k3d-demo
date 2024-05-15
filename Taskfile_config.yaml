@@ -1,0 +1,14 @@
+version: 3
+
+tasks:
+
+  export:
+    desc: Export environment variable KUBECONFIG
+    vars:
+      CONFIG: 'export KUBECONFIG="$(k3d kubeconfig write {{.KUBE_CLUSTER}})"'
+      CONFIG_FILE: "${HOME}/.zshrc"
+    cmds:
+      - echo "Exporting environment variable KUBECONFIG"
+      - grep -qFx "{{.CONFIG}}" "{{.CONFIG_FILE}}" || echo "{{.CONFIG}}" >> "{{.CONFIG_FILE}}"
+      - export KUBECONFIG="$(k3d kubeconfig write {{.KUBE_CLUSTER}})"
+      - echo "Done"

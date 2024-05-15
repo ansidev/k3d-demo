@@ -1,5 +1,10 @@
 version: 3
 
+includes:
+  config:
+    taskfile: ./Taskfile_config.yaml
+    internal: true
+
 vars:
   NGINX_INGRESS_CONTROLLER_VERSION: 1.10.0
 
@@ -9,7 +14,7 @@ tasks:
     cmds:
       - echo "Creating k3s 3-nodes cluster with ingress-nginx controller"
       - task: create-multi-nodes-cluster-notraefik
-      - export KUBECONFIG="$(k3d kubeconfig write {{.KUBE_CLUSTER}})"
+      - task: config:export
       - echo "Creating namespace {{.KUBE_NAMESPACE}}"
       - kubectl create namespace {{.KUBE_NAMESPACE}}
       - task dashboard:deploy
