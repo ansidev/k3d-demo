@@ -14,7 +14,7 @@ This project demonstrates how to setup a local k8s cluster (specifically on macO
    make prepare
    ```
 
-2. Deploy k3s cluster using one of following commands:
+2. Make sure Docker is already running, then deploy k3s cluster using one of following commands:
 
 
    ```sh
@@ -31,7 +31,7 @@ This project demonstrates how to setup a local k8s cluster (specifically on macO
 
    > **NOTE:** Kubernetes dashboard will be enabled by default.
 
-3. Open Kubernetes dashboard and paste the bearer token into the form to login (The bearer token will be copied to clipboard automatically).
+3. Wait until the cluster reaches the Running state, then open Kubernetes dashboard and paste the bearer token into the form to login (The bearer token will be copied to clipboard automatically).
 
    ```sh
    task dashboard:open
