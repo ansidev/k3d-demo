@@ -6,21 +6,21 @@ metadata:
     app: nginx
 spec:
   initContainers:
-  # Sidecar container
-  - name: nginx-log
-    image: busybox
-    command: ['/bin/sh']
-    args: ['-c', 'tail -f /var/log/nginx/access.log']
-    volumeMounts:
-      - name: logs
-        mountPath: /var/log/nginx
+    # Sidecar container
+    - name: nginx-log
+      image: busybox
+      command: ["/bin/sh"]
+      args: ["-c", "tail -f /var/log/nginx/access.log"]
+      volumeMounts:
+        - name: logs
+          mountPath: /var/log/nginx
   containers:
-  # Application container
-  - name: nginx-app
-    image: nginx:latest
-    volumeMounts:
-      - name: logs
-        mountPath: /var/log/nginx
+    # Application container
+    - name: nginx-app
+      image: nginx:latest
+      volumeMounts:
+        - name: logs
+          mountPath: /var/log/nginx
   volumes:
     - name: logs
       emptyDir: {}
