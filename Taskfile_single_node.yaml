@@ -4,18 +4,27 @@ includes:
   config:
     taskfile: ./Taskfile_config.yaml
     internal: true
+  dashboard:
+    taskfile: ./Taskfile_addons_dashboard.yaml
+    internal: true
 
 tasks:
-  deploy:
-    desc: Deploy k3s single-node cluster
+  deploy-wod:
+    desc: Deploy k3s single-node cluster without dashboard
     cmds:
-      - echo "Creating k3s single-node cluster"
+      - echo "Creating k3s single-node cluster without dashboard"
       - task: create-single-node-cluster
       - task: config:export
       - echo "Creating namespace {{.KUBE_NAMESPACE}}"
       - kubectl create namespace {{.KUBE_NAMESPACE}}
-      - task dashboard:deploy
-      - echo "Done"
+      - echo "Deployed k3s cluster"
+
+  deploy:
+    desc: Deploy k3s single-node cluster
+    cmds:
+      - echo "Creating k3s single-node cluster"
+      - task: deploy-wod
+      - task: dashboard:deploy
 
   create-single-node-cluster:
     internal: true

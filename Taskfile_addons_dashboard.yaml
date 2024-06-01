@@ -12,7 +12,7 @@ tasks:
       - helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
       - echo "Setting up admin user"
       - task deploy-app-wons -- addons/dashboard/admin_user.yaml
-      - echo "Done"
+      - echo "Deployed Kubernetes Dashboard"
 
   open:
     desc: Open dashboard website, the bearer token will be copied to clipboard automatically
