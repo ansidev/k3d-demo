@@ -10,7 +10,8 @@ spec:
     - name: nginx-log
       image: busybox
       command: ["/bin/sh"]
-      args: ["-c", "tail -f /var/log/nginx/access.log"]
+      args: ["-c", "tail -F /var/log/nginx/access.log"]
+      restartPolicy: Always
       volumeMounts:
         - name: logs
           mountPath: /var/log/nginx

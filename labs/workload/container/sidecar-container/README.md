@@ -1,5 +1,7 @@
 # Instructions
 
+> Prerequisites: This demo use k3s cluster and have enabled feature gate SidecarContainers. If you use another solution, please check whether the feature gate SidecarContainers is enabled.
+
 1. Deploy pod
 
    ```sh
@@ -16,8 +18,10 @@
 
    ```
    NAME            READY   STATUS    RESTARTS   AGE
-   nginx-sidecar   1/1     Running   0          1m
+   nginx-sidecar   2/2     Running   0          1m
    ```
+
+   > The column READY should display 2/2 because we have two running container: nginx-app (app container) and nginx-log (sidecar container).
 
 3. Check nginx log
 
