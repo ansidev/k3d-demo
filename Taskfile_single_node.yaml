@@ -31,6 +31,7 @@ tasks:
     cmds:
       - |
         k3d cluster create {{.KUBE_CLUSTER}} \
+          --image {{.K3S_DOCKER_IMAGE}} \
           --api-port 6550 \
           --port "{{.HOST_HTTP_PORT}}:80@loadbalancer" \
           --agents 2

@@ -5,6 +5,7 @@ vars:
   KUBE_CLUSTER: k3s-local
   HOST_HTTP_PORT: 8080
   HOST_HTTPS_PORT: 8443
+  K3S_DOCKER_IMAGE: "rancher/k3s:v1.30.0-k3s1"
 
 env:
   KUBECONFIG: "{{.HOME}}/.config/k3d/kubeconfig-{{.KUBE_NAMESPACE}}.yaml"
