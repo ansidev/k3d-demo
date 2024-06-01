@@ -1,8 +1,6 @@
 version: '3'
 
 vars:
-  HOME:
-    sh: echo ${HOME}
   KUBE_NAMESPACE: k3s-local
   KUBE_CLUSTER: k3s-local
   HOST_HTTP_PORT: 8080
