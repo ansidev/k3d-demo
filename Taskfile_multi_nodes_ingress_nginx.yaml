@@ -6,7 +6,7 @@ includes:
     internal: true
 
 vars:
-  NGINX_INGRESS_CONTROLLER_VERSION: 1.10.0
+  NGINX_INGRESS_CONTROLLER_VERSION: 1.10.1
 
 tasks:
   deploy:
@@ -42,6 +42,6 @@ tasks:
     desc: Deploy nginx as ingress controller and loadbalancer to k3s cluster
     cmds:
       - echo "Deploying nginx ingress"
-      # https://kubernetes.github.io/ingress-nginx/deploy/?ref=blog.thenets.org#bare-metal-clusters
+      # https://kubernetes.github.io/ingress-nginx/deploy/#bare-metal-clusters
       - kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v{{.NGINX_INGRESS_CONTROLLER_VERSION}}/deploy/static/provider/baremetal/deploy.yaml
       - kubectl apply -f ingress-nginx.yaml --validate=strict

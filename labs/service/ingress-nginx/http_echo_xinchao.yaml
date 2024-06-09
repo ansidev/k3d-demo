@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: http-echo-xinchao-app
+spec:
+  template:
+    metadata:
+      labels:
+        app: http-echo-xinchao
+        app-group: backend
+    spec:
+      containers:
+        - name: http-echo
+          image: hashicorp/http-echo
+          imagePullPolicy: IfNotPresent # Always|IfNotPresent
+          args:
+            - "-text=xinchao"
+          ports:
+            - containerPort: 5678
+  selector:
+    matchLabels:
+      app: http-echo-xinchao
+      app-group: backend
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: http-echo-xinchao-service
+spec:
+  selector: # reference to deployment spec.template.metadata.labels
+    app: http-echo-xinchao
+  ports:
+    - name: http
+      port: 8080 # service port
+      protocol: TCP
+      targetPort: 5678 # container port
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: http-echo-ingress
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: k3s.local
+    http:
+      paths:
+      - path: /xinchao
+        pathType: Prefix
+        backend:
+          service:
+            name: http-echo-xinchao-service
+            port:
+              number: 8080
